@@ -26,6 +26,9 @@ def malcheck(str1,str2):
 	if(sp_check.search(str2)!=None):
 		return 1
 	return 0
+app.errorhandler(404)
+def not_found(e):
+  return render_template("404.html")
 @app.route("/shezil",methods=['GET'])
 def test():
 		logger(request)
