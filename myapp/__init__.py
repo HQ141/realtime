@@ -16,7 +16,7 @@ def logger(request):
 	body=request.get_data(as_text=True)
 	dt=datetime.now()
 	malicious=malcheck(body,path)
-	conn.execute('''INSERT INTO TEST(REMOTE_ADDR,DATE_TIME,METHOD,PATH,HOST,USER_AGENT,ACCEPT,LANGUAGE,ENCODING,OTHER,BODY,SUS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)''',(request.environ['REMOTE_ADDR'],dt,method,path,request.headers['Host'],request.headers['User-Agent'],request.headers['Accept'],request.headers['Accept-Language'],request.headers['Accept-Encoding'],tmp,body,malicious))
+	conn.execute('''INSERT INTO TEST(REMOTE_ADDR,DATE_TIME,METHOD,PATH,HOST,USER_AGENT,ACCEPT,LANGUAGE,ENCODING,OTHER,BODY,SUSPICIOUS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)''',(request.environ['REMOTE_ADDR'],dt,method,path,request.headers['Host'],request.headers['User-Agent'],request.headers['Accept'],request.headers['Accept-Language'],request.headers['Accept-Encoding'],tmp,body,malicious))
 	conn.commit()
 	conn.close()
 def malcheck(str1,str2):
@@ -26,7 +26,10 @@ def malcheck(str1,str2):
 	if(sp_check.search(str2)!=None):
 		return 1
 	return 0
-	
+@app.route("/shezil",methods=['GET'])
+def test():
+		logger(request)
+		return 'shezil'	
 @app.route("/",methods=['GET'])
 def home():
 	logger(request)
